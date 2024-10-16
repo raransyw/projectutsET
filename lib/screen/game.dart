@@ -17,7 +17,7 @@ class _GameState extends State<Game> {
   List<int> _pattern = [];
   List<bool> _selected = [];
   bool _gameOver = false;
-  late Timer _timer;
+  Timer? _timer;
   int _timeLeft = 30;
   bool _showPattern = true;
 
@@ -30,11 +30,20 @@ class _GameState extends State<Game> {
     _startNewGame();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel timer when widget is disposed
+    super.dispose();
+  }
+
   Future<void> _loadUsername() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _username = prefs.getString('username') ?? "Player";
-    });
+    if (mounted) {
+      // Check if widget is still mounted
+      setState(() {
+        _username = prefs.getString('username') ?? "Player";
+      });
+    }
   }
 
   void _startNewGame() {
@@ -50,20 +59,25 @@ class _GameState extends State<Game> {
     setState(() {});
 
     Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _showPattern = false;
-      });
-      _startTimer();
+      if (mounted) {
+        // Ensure widget is still mounted
+        setState(() {
+          _showPattern = false;
+        });
+        _startTimer();
+      }
     });
   }
 
   void _startTimer() {
     _timeLeft = 30;
+    _timer?.cancel(); // Ensure any previous timer is cancelled
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft == 0) {
         _endGame();
         timer.cancel();
-      } else {
+      } else if (mounted) {
+        // Ensure widget is still mounted
         setState(() {
           _timeLeft--;
         });
@@ -73,11 +87,14 @@ class _GameState extends State<Game> {
 
   void _endGame() {
     _gameOver = true;
-    _timer.cancel();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Result(score: _score)),
-    );
+    _timer?.cancel();
+    if (mounted) {
+      // Ensure widget is still mounted
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Result(score: _score)),
+      );
+    }
   }
 
   void _generatePattern() {
@@ -92,7 +109,10 @@ class _GameState extends State<Game> {
       } while (_pattern.contains(newRandom));
       _pattern.add(newRandom);
     }
-    setState(() {});
+    if (mounted) {
+      // Ensure widget is still mounted
+      setState(() {});
+    }
   }
 
   int _getGridSize() {
@@ -102,9 +122,11 @@ class _GameState extends State<Game> {
   void _checkSelection(int index) {
     if (_pattern.contains(index)) {
       _score += 100;
-      setState(() {
-        _selected[index] = true;
-      });
+      if (mounted) {
+        setState(() {
+          _selected[index] = true;
+        });
+      }
       if (_selected.where((element) => element).length == _pattern.length) {
         _nextLevel();
       }
@@ -114,22 +136,26 @@ class _GameState extends State<Game> {
   }
 
   void _nextLevel() {
-    setState(() {
-      _level++;
-      if (_level > 5) {
-        _showVictoryDialog();
-      } else {
-        _startLevel();
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _level++;
+        if (_level > 5) {
+          _showVictoryDialog();
+        } else {
+          _startLevel();
+        }
+      });
+    }
   }
 
   void _showVictoryDialog() {
-    _timer.cancel();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Result(score: _score)),
-    );
+    _timer?.cancel();
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Result(score: _score)),
+      );
+    }
   }
 
   Widget _buildGrid(BuildContext context) {
