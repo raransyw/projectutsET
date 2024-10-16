@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projectuts/screen/home.dart';
 import 'package:projectuts/screen/leaderboard.dart';
+import 'package:projectuts/screen/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:projectuts/screen/game.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,15 +33,54 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 18, 133, 209)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 18, 133, 209)),
         useMaterial3: true,
         fontFamily: "Georgia",
       ),
-      home: const MyHomePage(title: "M'rize"),
+      home: const CheckLogin(),
+      routes: {
+        'leaderboard': (context) => const Leaderboard(),
+        'game': (context) => const Game(),
+      },
+    );
+  }
+}
 
-       routes: {
-           'leaderboard': (context) =>const Leaderboard(),
-   			},
+class CheckLogin extends StatefulWidget {
+  const CheckLogin({super.key});
+
+  @override
+  State<CheckLogin> createState() => _CheckLoginState();
+}
+
+class _CheckLoginState extends State<CheckLogin> {
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? username = prefs.getString('username');
+
+    if (username != null && username.isNotEmpty) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: "M'rize")),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Login()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -62,16 +104,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _username = "";
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _username =
+          prefs.getString('username') ?? "player"; // Set default username
     });
   }
 
@@ -91,36 +136,53 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text("M'rize", style: TextStyle(fontWeight: FontWeight.bold,),),
+        title: const Text(
+          "M'rize",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: Home(), 
-      drawer:  Drawer(
+      body: const Home(),
+      drawer: Drawer(
         elevation: 16.0,
         child: Column(
           children: <Widget>[
-              const UserAccountsDrawerHeader(
-                accountName: Text("player"),
-                accountEmail: Text("player@gmail.com"),
-                currentAccountPicture: CircleAvatar(
+            UserAccountsDrawerHeader(
+                accountName: Text(_username),
+                accountEmail: Text("$_username@gmail.com"),
+                currentAccountPicture: const CircleAvatar(
                     backgroundImage:
                         NetworkImage("https://i.pravatar.cc/150"))),
             ListTile(
-              title:  const Text("Leaderboard "),
-              leading:  const Icon(Icons.score),
-              onTap: () {
-                Navigator.popAndPushNamed(context, "leaderboard");
-              }
-            ),
+                title: const Text("Leaderboard "),
+                leading: const Icon(Icons.score),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, "leaderboard");
+                }),
             ListTile(
-              title:  const Text("Logout "),
-              leading:  const Icon(Icons.logout),
-              onTap: () {
-                //doLogout();
-              }
-            ),
+                title: const Text("Start Game"),
+                leading: const Icon(Icons.play_arrow),
+                onTap: () {
+                  Navigator.pushNamed(context, 'game');
+                }),
+            ListTile(
+                title: const Text("Logout "),
+                leading: const Icon(Icons.logout),
+                onTap: () {
+                  doLogout(context);
+                }),
           ],
         ),
       ),
+    );
+  }
+
+  void doLogout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('username'); // Hapus username dari SharedPreferences
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const Login()),
     );
   }
 }
