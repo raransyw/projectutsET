@@ -154,9 +154,10 @@ class _MyHomePageState extends State<MyHomePage> {
             UserAccountsDrawerHeader(
                 accountName: Text(_username),
                 accountEmail: Text("$_username@gmail.com"),
-                currentAccountPicture: const CircleAvatar(
-                    backgroundImage:
-                        NetworkImage("https://i.pravatar.cc/150"))),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(image: AssetImage("../assets/images/Gif2.gif"), fit: BoxFit.cover,),
+                ),
+                ),
             ListTile(
                 title: const Text("Leaderboard "),
                 leading: const Icon(Icons.emoji_events),

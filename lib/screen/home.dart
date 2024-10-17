@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectuts/screen/game.dart';
+import 'dart:math' as math;
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -37,24 +38,38 @@ class Home extends StatelessWidget {
             "1. Sekelompok blok akan muncul dan beberapa blok akan tersorot \n2. Kamu akan butuh untuk menghapalkan blok yang tersorot \n3. Tak lama setelah pola menghilang, kamu butuh untuk menekan blok yang tadi tersorot \n4. Seiring level meningkat, ukuran kelompok blok dan banyak blok yang akan disorot juga akan meningkat",
             style: TextStyle(fontSize: 15),
           )),
-        Container(
-          margin: const EdgeInsets.all(16.0),
+          Container(
+          margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
           alignment: Alignment.center,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Game()),
-              ); 
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0),),
-              backgroundColor: const Color.fromARGB(255, 18, 133, 209),
-              foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            child: const Icon(Icons.play_arrow),
+          child: const Text(
+            "\nPlay",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           )),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+            alignment: Alignment.center,
+            child: TweenAnimationBuilder(
+                    duration: const Duration(seconds: 40),
+                    tween: Tween<double>(begin: 0, end: 5 * math.pi), 
+                    builder: (_, double angle, __) {
+                    return Transform.rotate(
+                      angle: angle,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Game()),
+                          );},
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(20),
+                        backgroundColor: const Color.fromARGB(255, 68, 71, 97),
+                        foregroundColor: const Color.fromARGB(255, 235, 232, 243),
+                      ),
+                      child: const Icon(Icons.play_arrow, size: 30.0,),),
+                    );},
+                  ),
+            ),
       ]),
     ));
   }
