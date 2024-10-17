@@ -200,7 +200,8 @@ class _GameState extends State<Game> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("MemoPattern Game"),
+        title: const Text("MemoPattern"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Column(
         children: [

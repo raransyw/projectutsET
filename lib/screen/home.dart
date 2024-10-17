@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectuts/screen/game.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,7 +12,7 @@ class Home extends StatelessWidget {
         Container(
             alignment: Alignment.centerLeft,
             child: const Text(
-              "How to Play M'rize: ",
+              "How to Play MemoPattern: ",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             )),
         Container(
@@ -23,7 +24,7 @@ class Home extends StatelessWidget {
         Container(
             alignment: Alignment.centerLeft,
             child: const Text(
-              "\nCara bermain M'rize: ",
+              "\nCara bermain MemoPattern: ",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             )),
         Container(
@@ -32,6 +33,15 @@ class Home extends StatelessWidget {
               "1. Sekelompok blok akan muncul dan beberapa blok akan tersorot \n2. Kamu akan butuh untuk menghapalkan blok yang tersorot \n3. Tak lama setelah pola menghilang, kamu butuh untuk menekan blok yang tadi tersorot \n4. Seiring level meningkat, ukuran kelompok blok dan banyak blok yang akan disorot juga akan meningkat",
               style: TextStyle(fontSize: 15),
             )),
+       ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Game()),
+                ); 
+              },
+              child: const Text("Play"),
+            ),
       ]),
     ));
   }

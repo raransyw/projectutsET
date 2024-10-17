@@ -5,6 +5,8 @@ import 'package:projectuts/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:projectuts/screen/game.dart';
 
+String active_user = "";
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "M'rize Game",
+      title: "MemoPattern Game",
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -68,7 +70,7 @@ class _CheckLoginState extends State<CheckLogin> {
     if (username != null && username.isNotEmpty) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: "M'rize")),
+            builder: (context) => const MyHomePage(title: "MemoPattern")),
       );
     } else {
       Navigator.of(context).pushReplacement(
@@ -117,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _username =
           prefs.getString('username') ?? "player"; // Set default username
+      active_user = _username;
     });
   }
 
@@ -137,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: const Text(
-          "M'rize",
+          "MemoPattern",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -160,12 +163,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: () {
                   Navigator.popAndPushNamed(context, "leaderboard");
                 }),
-            ListTile(
+            /*ListTile(
                 title: const Text("Start Game"),
                 leading: const Icon(Icons.play_arrow),
                 onTap: () {
                   Navigator.pushNamed(context, 'game');
-                }),
+                }),*/
             ListTile(
                 title: const Text("Logout "),
                 leading: const Icon(Icons.logout),

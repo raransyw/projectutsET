@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
     // Setelah login, navigasi ke layar utama
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: "M'rize")),
+          builder: (context) => const MyHomePage(title: "MemoPattern")),
     );
   }
 
@@ -30,6 +30,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Container(

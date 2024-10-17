@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:projectuts/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'game.dart';
 import 'leaderboard.dart';
-import 'home.dart';
+
 
 class Result extends StatefulWidget {
   final int score;
@@ -20,6 +21,7 @@ class _ResultState extends State<Result> {
   void initState() {
     super.initState();
     _loadHighScore();
+    _saveScores(active_user, widget.score.toString());
   }
 
   Future<void> _loadHighScore() async {
@@ -33,11 +35,35 @@ class _ResultState extends State<Result> {
     });
   }
 
+  Future<void> _saveScores(String username, String score) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String>? scoreList = prefs.getStringList('listofscores');
+  
+    scoreList ??= [];
+
+    scoreList.add('$username:$score');
+
+    List<List<String>> scores = scoreList.map((scoreList) {
+      var split = scoreList.split(':');
+      return [split[0], split[1]];
+    }).toList();
+
+    scores.sort((a, b) => int.parse(b[1]).compareTo(int.parse(a[1])));
+
+    List<String> updatedScoreList = scores.map((score) {
+      return '${score[0]}:${score[1]}';
+    }).toList();
+
+    await prefs.setStringList('listofscores', updatedScoreList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Game Over"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(
@@ -77,7 +103,7 @@ class _ResultState extends State<Result> {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const Home()),
+                  MaterialPageRoute(builder: (context) =>  const MyApp()),
                   (route) => false,
                 );
               },
