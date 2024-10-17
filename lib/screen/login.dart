@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('MemoPattern', style: TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
@@ -45,6 +45,11 @@ class _LoginState extends State<Login> {
           ),
           child: Column(
             children: [
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Text("Login", 
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(

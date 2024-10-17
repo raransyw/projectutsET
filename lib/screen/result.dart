@@ -62,21 +62,25 @@ class _ResultState extends State<Result> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game Over"),
+        title: const Text('MemoPattern', style: TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              "Game Over",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
             Text(
-              "Your Score: ${widget.score}",
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              "\nYour Score: ${widget.score}",
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Text(
               "High Score: $_highScore",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
             ElevatedButton(
@@ -86,7 +90,14 @@ class _ResultState extends State<Result> {
                   MaterialPageRoute(builder: (context) => const Game()),
                 );
               },
-              child: const Text("Play Again"),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.play_arrow),
+                  SizedBox(width: 8), 
+                  Text("Play Again"),
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
@@ -96,7 +107,14 @@ class _ResultState extends State<Result> {
                   MaterialPageRoute(builder: (context) => const Leaderboard()),
                 ); 
               },
-              child: const Text("High Scores"),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.emoji_events),
+                  SizedBox(width: 8), 
+                  Text("Leaderboard"),
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
@@ -107,7 +125,13 @@ class _ResultState extends State<Result> {
                   (route) => false,
                 );
               },
-              child: const Text("Home"),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [Icon(Icons.home),
+                  SizedBox(width: 8), 
+                  Text("Home"),
+                ],
+              ),
             ),
           ],
         ),

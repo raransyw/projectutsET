@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projectuts/main.dart';
+//import 'package:projectuts/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Leaderboard extends StatefulWidget {
@@ -67,22 +67,26 @@ class _LeaderboardState extends State<Leaderboard> {
           Card(
             child: Column(
               children: [
-                Container (
+                /*Container (
                   margin: const EdgeInsets.all(15),
                   child: Text( 
                     (i+1).toString(),
                     style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
                   )
-                ),
+                ),*/
+                Image.asset(
+                  "../assets/images/R${i + 1}F.png",
+                  width: 100.0,  
+                  height: 100.0,),
                 Container (
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(3),
                   child: Text( 
                     scores[i][0],
-                    style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                   )
                 ),
                 Container (
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(3),
                   child: Text(
                     scores[i][1],
                     style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold),
@@ -114,27 +118,31 @@ class _LeaderboardState extends State<Leaderboard> {
           Card(
             child: Column(
               children: [
-                Container (
+                /*Container (
                   margin: const EdgeInsets.all(15),
                   child: Text( 
                     (i+1).toString(),
                     style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
                   )
-                ),
+                ),*/
+                Image.asset(
+                  "../assets/images/R${i + 1}F.png",
+                  width: 100.0,  
+                  height: 100.0,),
                 Container (
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(3),
                   child: Text( 
                     scores[i][0],
-                    style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                   )
                 ),
                 Container (
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(3),
                   child: Text(
                     scores[i][1],
                     style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold),
                     ),
-                )            
+                )          
               ]
             ) 
           )
@@ -146,25 +154,70 @@ class _LeaderboardState extends State<Leaderboard> {
     return temp;
   }
 
+  List<Widget> aftertop3(){
+    List<Widget> temp = [];
+    int i = 3;
+    if(scores.length > 3){
+      while(i < scores.length){
+        Widget w = Container(
+        padding: const EdgeInsets.all(2.0),
+        decoration: const BoxDecoration(
+          border: Border(
+            //top: BorderSide(width: 1.0, color: Colors.grey),    
+            bottom: BorderSide(width: 1.0, color: Colors.grey), 
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${i + 1}. ${scores[i][0]}",  
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "${scores[i][1]}",  
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+          ),);
+        temp.add(w);
+        i++;
+      }
+    }
+    return temp;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MemoPattern'),
+        title: const Text('MemoPattern',  style: TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-                Text("Leaderboard", 
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          Container (
+                  margin: const EdgeInsets.all(20),
+                  child: const Text("Leaderboard", 
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                    ),
                 ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   children: top3board(),
                 ),
                 Divider(
+                  height: 1,
+                ),
+                if(scores.length > 3)
+                  ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: aftertop3(),
+                  ),
+                Divider(
                   height: 100,
-                )
+                ),
         ])),
     );
   }

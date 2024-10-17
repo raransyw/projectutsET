@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         NetworkImage("https://i.pravatar.cc/150"))),
             ListTile(
                 title: const Text("Leaderboard "),
-                leading: const Icon(Icons.score),
+                leading: const Icon(Icons.emoji_events),
                 onTap: () {
                   Navigator.popAndPushNamed(context, "leaderboard");
                 }),
@@ -170,8 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pushNamed(context, 'game');
                 }),*/
             ListTile(
-                title: const Text("Logout "),
-                leading: const Icon(Icons.logout),
+                title: const Text("Logout ", style: TextStyle(color: Colors.red),),
+                leading: const Icon(Icons.logout, color: Colors.red,),
                 onTap: () {
                   doLogout(context);
                 }),
