@@ -71,8 +71,14 @@ class Home extends StatelessWidget {
                       ),
                       child: const Icon(Icons.play_arrow, size: 30.0,),),
                     );},
-                  ),
-            ),
+            ),),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 8),
+            alignment: Alignment.center,
+            child: const Text(
+              "All images created by Jade",
+              style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, color: Colors.grey),
+            )),
       ]),
     ));
   }
