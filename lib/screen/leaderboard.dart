@@ -206,10 +206,10 @@ class _LeaderboardState extends State<Leaderboard> {
                   physics: NeverScrollableScrollPhysics(),
                   children: top3board(),
                 ),
-                Divider(
-                  height: 1,
-                ),
                 if(scores.length > 3)
+                  Divider(
+                    height: 1,
+                  ),
                   ListView(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

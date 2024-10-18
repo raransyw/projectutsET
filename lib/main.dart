@@ -139,11 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text(
-          "MemoPattern",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        title: const Text("MemoPattern", style: TextStyle(fontWeight: FontWeight.bold,),
         ),
       ),
       body: const Home(),
@@ -152,10 +148,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-                accountName: Text(_username),
-                accountEmail: Text("$_username@gmail.com"),
+                accountName: Text(_username, 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold, 
+                  shadows: [
+                    Shadow(
+                      offset: Offset(2.0, 2.0), // Horizontal and vertical offset
+                      blurRadius: 3.0, // How much to blur the shadow
+                      color: Colors.black.withOpacity(0.5), // Shadow color with opacity
+                    ),
+                  ],),),
+                accountEmail: Text("$_username@gmail.com", 
+                style: TextStyle(shadows: [
+                    Shadow(
+                      offset: Offset(2.0, 2.0), // Horizontal and vertical offset
+                      blurRadius: 3.0, // How much to blur the shadow
+                      color: Colors.black.withOpacity(0.5), // Shadow color with opacity
+                    ),
+                  ],
+                ),),
                 decoration: const BoxDecoration(
-                  image: DecorationImage(image: AssetImage("../assets/images/Gif2.gif"), fit: BoxFit.cover,),
+                  image: DecorationImage(image: AssetImage("../assets/images/Gif3.gif"), fit: BoxFit.cover,),
                 ),
                 ),
             ListTile(

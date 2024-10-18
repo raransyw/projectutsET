@@ -10,6 +10,9 @@ class Home extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(children: [
+        Container (
+                  alignment: Alignment.center,
+                  child: Image.asset("../assets/images/Logo.png", height: 80.0,)),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 8.0),
           alignment: Alignment.centerLeft,
@@ -42,11 +45,11 @@ class Home extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
           alignment: Alignment.center,
           child: const Text(
-            "\nPlay",
+            "Play",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           )),
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+            margin: const EdgeInsets.fromLTRB(0, 8, 0, 50),
             alignment: Alignment.center,
             child: TweenAnimationBuilder(
                     duration: const Duration(seconds: 40),
